@@ -20,6 +20,7 @@ class _DietPlannerState extends State<DietPlanner> {
   bool isVegSelected = false;
   bool isMedSelected = false;
   bool isPaleoSelected = false;
+  String? selectedCategory; // To store the currently selected category
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +32,7 @@ class _DietPlannerState extends State<DietPlanner> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
+              const SizedBox(height: 50.0),
               Text(
                 'Let us know your diet.',
                 style: TextStyle(
@@ -39,120 +41,32 @@ class _DietPlannerState extends State<DietPlanner> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 10.0),
-              Container(
-                height: 400.0,
-                child: GridView(
-                  physics: NeverScrollableScrollPhysics(),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 15.0,
-                    mainAxisSpacing: 15.0,
-                  ),
-                  children: <Widget>[
-                    FoodTypeCard(
-                      image: 'https://static.vecteezy.com/system/resources/thumbnails/000/585/705/small/5-08.jpg',
-                      title: 'Pregnant Women',
-                      isSelected: isAnythingSelected,
-                      onPress: () {
-                        setState(() {
-                          isAnythingSelected = !isAnythingSelected;
-                        });
-                      },
-                      imageSize: 5000000.0,
-                    ),
-                    FoodTypeCard(
-                      image: 'https://thumbs.dreamstime.com/b/female-olympic-athlete-running-marathon-person-celebrate-summer-games-athletics-medal-sportive-people-celebrating-track-field-174309058.jpg',
-                      title: 'athletes',
-                      isSelected: isVegSelected,
-                      onPress: () {
-                        setState(() {
-                          isVegSelected = !isVegSelected;
-                        });
-                      },
-                      imageSize: 5000000.0,
-                    ),
-                    FoodTypeCard(
-                      image: 'https://static.vecteezy.com/system/resources/previews/001/879/424/non_2x/doctor-and-people-check-blood-sugar-level-with-glucose-meter-diabetes-type-two-check-up-diet-for-non-communicable-diseases-checking-insulin-illustration-for-business-card-banner-brochure-flyer-free-vector.jpg',
-                      title: 'Diabetic patients',
-                      isSelected: isMedSelected,
-                      onPress: () {
-                        setState(() {
-                          isMedSelected = !isMedSelected;
-                        });
-                      },
-                      imageSize: 5000000.0,
-                    ),
-                    FoodTypeCard(
-                      image: 'https://static.vecteezy.com/system/resources/thumbnails/002/226/928/small/kawaii-heart-versus-high-cholesterol-levels-vector.jpg',
-                      title: 'Cholesterol patients',
-                      isSelected: isPaleoSelected,
-                      onPress: () {
-                        setState(() {
-                          isPaleoSelected = !isPaleoSelected;
-                        });
-                      },
-                      imageSize: 5000000.0,
-                    ),
-                  ],
-                ),
+              const SizedBox(height: 10.0),
+              GridView.count(
+                physics: NeverScrollableScrollPhysics(),
+                crossAxisCount: 2,
+                crossAxisSpacing: 15.0,
+                mainAxisSpacing: 15.0,
+                shrinkWrap: true,
+                children: <Widget>[
+                  _buildImageCard('https://i.ibb.co/pZcwHZ0/file-1.png', 'Pregnant Women', () {
+                    _updateSelectedCategory('Pregnant Women');
+                  }),
+                  _buildImageCard('https://thumbs.dreamstime.com/b/female-olympic-athlete-running-marathon-person-celebrate-summer-games-athletics-medal-sportive-people-celebrating-track-field-174309058.jpg', 'Athletes', () {
+                    _updateSelectedCategory('Athletes');
+                  }),
+                  _buildImageCard('https://static.vecteezy.com/system/resources/previews/001/879/424/non_2x/doctor-and-people-check-blood-sugar-level-with-glucose-meter-diabetes-type-two-check-up-diet-for-non-communicable-diseases-checking-insulin-illustration-for-business-card-banner-brochure-flyer-free-vector.jpg', 'Diabetic Patients', () {
+                    _updateSelectedCategory('Diabetic Patients');
+                  }),
+                  _buildImageCard('https://static.vecteezy.com/system/resources/thumbnails/002/226/928/small/kawaii-heart-versus-high-cholesterol-levels-vector.jpg', 'Cholesterol Patients', () {
+                    _updateSelectedCategory('Cholesterol Patients');
+                  }),
+                ],
               ),
               const SizedBox(height: 15.0),
-              Text(
-                'I want to eat',
-                style: TextStyle(
-                  color: Colors.green[800],
-                  fontSize: 19.0,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
               const SizedBox(height: 10.0),
-              TextField(
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                    borderSide: BorderSide.none,
-                  ),
-                  filled: true,
-                  fillColor: Colors.green[200],
-                  hintText: '1500 Calories',
-                  hintStyle: TextStyle(
-                    color: Colors.green[500],
-                    fontWeight: FontWeight.bold,
-                    fontSize: 15.0,
-                  ),
-                  suffixText: 'Not sure?',
-                  suffixStyle: const TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 15.0,
-                  ),
-                ),
-              ),
               const SizedBox(height: 15.0),
-              Text(
-                'in how many meals?',
-                style: TextStyle(
-                  color: Colors.green[800],
-                  fontSize: 19.0,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
               const SizedBox(height: 10.0),
-              DropdownButton<String>(
-                value: selected,
-                onChanged: (String? newValue) {
-                  setState(() {
-                    selected = newValue!;
-                  });
-                },
-                items: meals.map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-              ),
               const SizedBox(height: 15.0),
               Text(
                 'Weight',
@@ -209,34 +123,6 @@ class _DietPlannerState extends State<DietPlanner> {
                       Text('Lose'),
                     ],
                   ),
-                  // Row(
-                  //   children: <Widget>[
-                  //     Radio<int>(
-                  //       value: 4,
-                  //       groupValue: _selectedOption1,
-                  //       onChanged: (int? value) {
-                  //         setState(() {
-                  //           _selectedOption1 = value!;
-                  //         });
-                  //       },
-                  //     ),
-                  //     Text('Keto'),
-                  //   ],
-                  // ),
-                  // Row(
-                  //   children: <Widget>[
-                  //     Radio<int>(
-                  //       value: 5,
-                  //       groupValue: _selectedOption1,
-                  //       onChanged: (int? value) {
-                  //         setState(() {
-                  //           _selectedOption1 = value!;
-                  //         });
-                  //       },
-                  //     ),
-                  //     Text('Low Carb'),
-                  //   ],
-                  // ),
                 ],
               ),
               const SizedBox(height: 20.0),
@@ -330,5 +216,54 @@ class _DietPlannerState extends State<DietPlanner> {
         ),
       ),
     );
+  }
+
+  // Helper function to build image cards with titles
+  Widget _buildImageCard(String imageUrl, String title, VoidCallback onPress) {
+    bool isSelected = selectedCategory == title; // Check if this category is selected
+    return GestureDetector(
+      onTap: onPress,
+      child: Card(
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.network(
+                  imageUrl,
+                  height: 100,
+                  width: 100,
+                  fit: BoxFit.cover,
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  title,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+            if (isSelected)
+              const Padding( // Add padding to position the icon nicely
+                padding: EdgeInsets.only(left: 150.0, top: 150.0),
+                child: Icon(
+                  Icons.check_circle,
+                  color: Color(0xFF2abca4),
+                  size: 35,
+                ),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // Function to update the selected category and ensure single selection
+  void _updateSelectedCategory(String category) {
+    setState(() {
+      selectedCategory = category;
+    });
   }
 }
