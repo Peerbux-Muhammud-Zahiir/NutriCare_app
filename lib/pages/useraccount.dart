@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:untitled/firebasestuff/authentication.dart';
-import 'package:untitled/models/usermodel.dart';
+import 'package:nutricare/firebasestuff/authentication.dart';
+import 'package:nutricare/models/usermodel.dart';
 
 class UserAccount extends StatefulWidget {
   const UserAccount({Key? key}) : super(key: key);
