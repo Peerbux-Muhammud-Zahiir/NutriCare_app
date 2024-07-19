@@ -13,9 +13,9 @@ class _UserAccountState extends State<UserAccount> {
   String? username;
   String? email;
   int? age;
-  double? weight; // Added
-  double? height; // Added
-  String? gender; // Added
+  double? weight;
+  double? height;
+  String? gender;
   String? photoUrl;
   bool isLoading = true;
   late String status;
@@ -32,9 +32,9 @@ class _UserAccountState extends State<UserAccount> {
       username = userDetails.username;
       email = userDetails.email;
       age = userDetails.age;
-      weight = userDetails.weight; // Set weight
-      height = userDetails.height; // Set height
-      gender = userDetails.gender; // Set gender
+      weight = userDetails.weight;
+      height = userDetails.height;
+      gender = userDetails.gender;
       photoUrl = userDetails.photoUrl;
       isLoading = false;
       if (age! > 60) {
@@ -66,241 +66,283 @@ class _UserAccountState extends State<UserAccount> {
         child: Icon(Icons.logout, color: Colors.white),
         backgroundColor: Color(0xFF2abca4),
       ),
-      body: Stack(
-        children: [
-          Padding(
-            padding: EdgeInsets.fromLTRB(30.0, 40.0, 30.0, 0.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Center(
-                  child: Stack(
-                    alignment: Alignment.center,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(30.0, 40.0, 30.0, 20.0), // Adjusted bottom padding for scrolling
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: Color(0xFF2abca4),
+                          width: 10.0,
+                        ),
+                      ),
+                      child: CircleAvatar(
+                        backgroundImage: NetworkImage(photoUrl!),
+                        radius: 70.0,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 40),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
                     children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(
+                      SizedBox(
+                        width: 100, // Adjust width for uniformity
+                        child: Text(
+                          'Name:',
+                          style: TextStyle(
                             color: Color(0xFF2abca4),
-                            width: 10.0,
+                            letterSpacing: 2.0,
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
-                        child: CircleAvatar(
-                          backgroundImage: NetworkImage(photoUrl!),
-                          radius: 70.0,
+                      ),
+                      SizedBox(width: 10.0),
+                      Expanded(
+                        child: Container(
+                          padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+                          decoration: BoxDecoration(
+                            color: Color(0xFF2abca4),
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          child: Text(
+                            '$username',
+                            style: TextStyle(
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
                       ),
                     ],
                   ),
-                ),
-                SizedBox(height: 40),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text('Username:',
-                            textAlign: TextAlign.right,
-                            style: TextStyle(
-                              color: Color(0xFF2abca4),
-                              letterSpacing: 2.0,
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.bold,
-                            )),
-                        SizedBox(width: 10.0),
-                        Container(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 12.0, vertical: 8.0),
+                  SizedBox(height: 20.0),
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 100,
+                        child: Text(
+                          'Age:',
+                          style: TextStyle(
+                            color: Color(0xFF2abca4),
+                            letterSpacing: 2.0,
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 10.0),
+                      Expanded(
+                        child: Container(
+                          padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
                           decoration: BoxDecoration(
                             color: Color(0xFF2abca4),
                             borderRadius: BorderRadius.circular(10.0),
                           ),
-                          child: Text('$username',
-                              style: TextStyle(
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                              )),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 20.0),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SizedBox(width: 10.0),
-                        Text('Age:',
-                            textAlign: TextAlign.right,
+                          child: Text(
+                            '$age',
                             style: TextStyle(
-                              color: Color(0xFF2abca4),
-                              letterSpacing: 2.0,
                               fontSize: 18.0,
                               fontWeight: FontWeight.bold,
-                            )),
-                        SizedBox(width: 10.0),
-                        Container(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 12.0, vertical: 8.0),
-                          decoration: BoxDecoration(
-                            color: Color(0xFF2abca4),
-                            borderRadius: BorderRadius.circular(10.0),
+                              color: Colors.white,
+                            ),
+                            overflow: TextOverflow.ellipsis,
                           ),
-                          child: Text('$age',
-                              style: TextStyle(
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                              )),
                         ),
-                      ],
-                    ),
-                    SizedBox(height: 00.0),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        SizedBox(height: 20.0),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text('Status:',
-                                style: TextStyle(
-                                  fontSize: 18.0,
-                                  fontWeight: FontWeight.bold,
-                                  color: Color(0xFF2abca4),
-                                )),
-                            SizedBox(width: 10.0),
-                            Container(
-                              padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-                              decoration: BoxDecoration(
-                                color: Color(0xFF2abca4),
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              child: Text('$status',
-                                  style: TextStyle(
-                                    fontSize: 18.0,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
-                                  )),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 20.0),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text('Weight:',
-                                style: TextStyle(
-                                  fontSize: 18.0,
-                                  fontWeight: FontWeight.bold,
-                                  color: Color(0xFF2abca4),
-                                )),
-                            SizedBox(width: 10.0),
-                            Container(
-                              padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-                              decoration: BoxDecoration(
-                                color: Color(0xFF2abca4),
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              child: Text('${weight}kg',
-                                  style: TextStyle(
-                                    fontSize: 18.0,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
-                                  )),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 20.0),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text('Height:',
-                                style: TextStyle(
-                                  fontSize: 18.0,
-                                  fontWeight: FontWeight.bold,
-                                  color: Color(0xFF2abca4),
-                                )),
-                            SizedBox(width: 10.0),
-                            Container(
-                              padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-                              decoration: BoxDecoration(
-                                color: Color(0xFF2abca4),
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              child: Text('${height}cm',
-                                  style: TextStyle(
-                                    fontSize: 18.0,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
-                                  )),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 20.0),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text('Gender:',
-                                style: TextStyle(
-                                  fontSize: 18.0,
-                                  fontWeight: FontWeight.bold,
-                                  color: Color(0xFF2abca4),
-                                )),
-                            SizedBox(width: 10.0),
-                            Container(
-                              padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-                              decoration: BoxDecoration(
-                                color: Color(0xFF2abca4),
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              child: Text('$gender',
-                                  style: TextStyle(
-                                    fontSize: 18.0,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
-                                  )),
-                            ),
-                          ],
-                        ),
-                      ],
-                    )
-                  ],
-                ),
-              ],
-            ),
-          ),
-          Positioned(
-            bottom: 20.0,
-            left: 20.0,
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-              decoration: BoxDecoration(
-                color: Color(0xFF2abca4),
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(
-                    Icons.email,
-                    color: Colors.white,
+                      ),
+                    ],
                   ),
-                  SizedBox(width: 10.0),
-                  Text(
-                    '$email',
-                    style: TextStyle(
-                      fontSize: 18.0,
-                      letterSpacing: 0.5,
-                      color: Colors.white,
+                  SizedBox(height: 20.0),
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 100,
+                        child: Text(
+                          'Status:',
+                          style: TextStyle(
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF2abca4),
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 10.0),
+                      Expanded(
+                        child: Container(
+                          padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+                          decoration: BoxDecoration(
+                            color: Color(0xFF2abca4),
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          child: Text(
+                            '$status',
+                            style: TextStyle(
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 20.0),
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 100,
+                        child: Text(
+                          'Weight:',
+                          style: TextStyle(
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF2abca4),
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 10.0),
+                      Expanded(
+                        child: Container(
+                          padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+                          decoration: BoxDecoration(
+                            color: Color(0xFF2abca4),
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          child: Text(
+                            '${weight}kg',
+                            style: TextStyle(
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 20.0),
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 100,
+                        child: Text(
+                          'Height:',
+                          style: TextStyle(
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF2abca4),
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 10.0),
+                      Expanded(
+                        child: Container(
+                          padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+                          decoration: BoxDecoration(
+                            color: Color(0xFF2abca4),
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          child: Text(
+                            '${height}cm',
+                            style: TextStyle(
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 20.0),
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 100,
+                        child: Text(
+                          'Gender:',
+                          style: TextStyle(
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF2abca4),
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 10.0),
+                      Expanded(
+                        child: Container(
+                          padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+                          decoration: BoxDecoration(
+                            color: Color(0xFF2abca4),
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          child: Text(
+                            '$gender',
+                            style: TextStyle(
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 20.0),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+                    decoration: BoxDecoration(
+                      color: Color(0xFF2abca4),
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    child: Row(
+                      children: [
+                        Text(
+                          'Email:',
+                          style: TextStyle(
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                        SizedBox(width: 10.0),
+                        Expanded(
+                          child: Text(
+                            '$email',
+                            style: TextStyle(
+                              fontSize: 18.0,
+                              color: Colors.white,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
               ),
-            ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
