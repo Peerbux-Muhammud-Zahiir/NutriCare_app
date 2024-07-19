@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "286370369103",
+    "project_id": "nutricare-93a2e",
+    "storage_bucket": "nutricare-93a2e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:286370369103:android:352c4752215ebb3579643a",
+        "android_client_info": {
+          "package_name": "com.example.nutricare"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDOw1Abd7hD9nBR63J2rxIiK3GxGMkmpI0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
