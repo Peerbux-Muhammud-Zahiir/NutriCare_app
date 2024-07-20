@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:nutricare/AI%20Chatbot/chatbotmain.dart';
 import 'package:nutricare/AI%20Stuff/camerastream.dart';
 import 'package:nutricare/AI%20Stuff/imagefoodclassification.dart';
@@ -16,6 +17,7 @@ import 'package:nutricare/pages/signup.dart';
 import 'package:nutricare/pages/useraccount.dart';
 import 'package:nutricare/pages/welcomesceen.dart';
 import 'package:nutricare/randomutilities/bottomnavigationbarpagemanager.dart';
+import 'package:nutricare/randomutilities/calories_provider.dart';
 import 'nutritionix/nutrionixexercise.dart';
 import 'nutritionix/nutritionixapi.dart';
 
@@ -30,22 +32,27 @@ void main() async {
         storageBucket: 'nutricare-93a2e.appspot.com',
       ));
 
-  runApp(MaterialApp(
-    initialRoute: '/Home2', // Corrected initial route
-    routes: {
-      '/Home': (context) => managePage('/Home'),
-      '/Login': (context) => Login(),
-      '/Signup': (context) => Signup(),
-      '/Chat': (context) => managePage('/Chat'),
-      '/DailyTips': (context) => managePage('/DailyTips'),
-      '/DietPlanner': (context) => managePage('/DietPlanner'),
-      '/UserAccount': (context) => managePage('/UserAccount'),
-      '/Loading': (context) => LoadingScreen(),
-      '/Welcome': (context) => WelcomeScreen(), // Ensure this route is defined
-      '/FoodapiTEST': (context) => Nutrionixexercise(),
-      '/Home2': (context) => Home2(),
-    },
-  ));
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => CaloriesProvider(),
+      child: MaterialApp(
+        initialRoute: '/Welcome', // Corrected initial route
+        routes: {
+          '/Home': (context) => managePage('/Home'),
+          '/Login': (context) => Login(),
+          '/Signup': (context) => Signup(),
+          '/Chat': (context) => managePage('/Chat'),
+          '/DailyTips': (context) => managePage('/DailyTips'),
+          '/DietPlanner': (context) => managePage('/DietPlanner'),
+          '/UserAccount': (context) => managePage('/UserAccount'),
+          '/Loading': (context) => LoadingScreen(),
+          '/Welcome': (context) => WelcomeScreen(), // Ensure this route is defined
+          '/FoodapiTEST': (context) => Nutrionixexercise(),
+          '/Home2': (context) => Home2(),
+        },
+      ),
+    ),
+  );
 }
 
 Widget managePage(String routeName) {

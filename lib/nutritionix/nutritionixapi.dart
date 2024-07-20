@@ -5,7 +5,7 @@ import 'package:nutricare/models/nutritionalinfo.dart';
 
 class NutritionixApi {
   static const String _appId = '5ed94ed6'; // Your actual Application ID
-  static const String _apiKey = 'e045d64e7d1a82335a1996fcb474f044'; // Your actual API Key
+  static const String _apiKey = 'ca4c9c94d9d154abb47d229d0dd6742a'; // Your actual API Key
   static const String _baseUrl = 'https://trackapi.nutritionix.com/v2';
 
   Future<List<dynamic>> fetchAutocompleteData(String query) async {

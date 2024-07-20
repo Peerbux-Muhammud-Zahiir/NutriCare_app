@@ -1,3 +1,23 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:nutricare/models/usermodel.dart';
+import 'package:nutricare/firebasestuff/authentication.dart';
+import 'package:nutricare/randomutilities/calories_provider.dart';
+import 'package:provider/provider.dart';
+
+Future<UserModel?> getCurrentUserDetails() async {
+  Authentication auth = Authentication();
+  return await auth.getUserDetails();
+}
+
+class SelectedOptions {
+  final int selectedOption1;
+  final int selectedOption2;
+
+  SelectedOptions(this.selectedOption1, this.selectedOption2);
+}
+
 class BMRCalculator {
   // Method to calculate BMR for men
   double calculateBMRForMen(double weight, double height, int age) {
@@ -35,17 +55,17 @@ class BMRCalculator {
   }
 
   // Method to get activity factor
-  double getActivityFactor(String activityLevel) {
+  double getActivityFactor(int activityLevel) {
     switch (activityLevel) {
-      case 'Sedentary':
+      case 1:
         return 1.2;
-      case 'Lightly active':
+      case 2:
         return 1.375;
-      case 'Moderately active':
+      case 3:
         return 1.55;
-      case 'Very active':
+      case 4:
         return 1.725;
-      case 'Extra active':
+      case 5:
         return 1.9;
       default:
         return 1.0; // Default if activity level is not recognized
@@ -53,45 +73,93 @@ class BMRCalculator {
   }
 
   // Method to calculate TDEE based on BMR and activity factor
-  double calculateTDEE(double bmr, String activityLevel) {
+  double calculateTDEE(double bmr, int activityLevel) {
     double activityFactor = getActivityFactor(activityLevel);
     return bmr * activityFactor;
   }
 
   // Method to adjust caloric intake based on goal
-  double adjustCaloriesForGoal(double tdee, String goal) {
+  double adjustCaloriesForGoal(double tdee, int goal) {
     switch (goal) {
-      case 'Lose Weight':
-        return tdee - 500; // Can be adjusted to a range as needed
-      case 'Maintain Weight':
-        return tdee;
-      case 'Gain Muscle':
-        return tdee + 250; // Can be adjusted to a range as needed
+      case 1:
+        return tdee + 250; // Gain
+      case 2:
+        return tdee; // Maintain
+      case 3:
+        return tdee - 500; // Lose
       default:
         return tdee; // Default to maintain weight if goal is not recognized
     }
   }
 }
+void calculateDiet(SelectedOptions options) async {
+  UserModel? user = await getCurrentUserDetails();
+  if (user != null) {
+    print('User Details:');
+    print('Username: ${user.username}');
+    print('Email: ${user.email}');
+    print('Weight: ${user.weight}');
+    print('Height: ${user.height}');
+    print('Age: ${user.age}');
+    print('Gender: ${user.gender}');
 
-void main() {
-  BMRCalculator bmrCalculator = BMRCalculator();
+    double BMR;
+    if (user.age >= 10 && user.age <= 18) {
+      BMR = 17.686 * user.weight + 658.2;
+    } else if (user.age > 60 && user.gender == 'M') {
+      BMR = 13.5 * user.weight + 487;
+    } else if (user.age > 60 && user.gender == 'F') {
+      BMR = 10.5 * user.weight + 596;
+    } else if (user.gender == 'M') {
+      BMR = 88.362 + (13.397 * user.weight) + (4.799 * user.height) - (5.677 * user.age);
+    } else {
+      BMR = 447.593 + (9.247 * user.weight) + (3.098 * user.height) - (4.330 * user.age);
+    }
+    print('BMR: $BMR');
 
-  // Example data
-  double weight = 70.0; // in kg
-  double height = 175.0; // in cm
-  int age = 25; // in years
-  String activityLevel = 'Moderately active';
-  String goal = 'Lose Weight';
+    BMRCalculator bmrCalculator = BMRCalculator();
+    double tdee = bmrCalculator.calculateTDEE(BMR, options.selectedOption2);
+    double adjustedCalories = bmrCalculator.adjustCaloriesForGoal(tdee, options.selectedOption1);
+    print('TDEE: $tdee');
+    print('Adjusted Calories for Goal: $adjustedCalories');
+  } else {
+    print('No user is currently logged in.');
+  }
+}
 
-  // Calculate BMR for a man
-  double bmrMen = bmrCalculator.calculateBMRForMen(weight, height, age);
-  print('BMR for Men: $bmrMen');
+void calculateDietWithContext(SelectedOptions options, BuildContext context) async {
+  UserModel? user = await getCurrentUserDetails();
+  if (user != null) {
+    print('User Details:');
+    print('Username: ${user.username}');
+    print('Email: ${user.email}');
+    print('Weight: ${user.weight}');
+    print('Height: ${user.height}');
+    print('Age: ${user.age}');
+    print('Gender: ${user.gender}');
 
-  // Calculate TDEE
-  double tdee = bmrCalculator.calculateTDEE(bmrMen, activityLevel);
-  print('TDEE: $tdee');
+    double BMR;
+    if (user.age >= 10 && user.age <= 18) {
+      BMR = 17.686 * user.weight + 658.2;
+    } else if (user.age > 60 && user.gender == 'M') {
+      BMR = 13.5 * user.weight + 487;
+    } else if (user.age > 60 && user.gender == 'F') {
+      BMR = 10.5 * user.weight + 596;
+    } else if (user.gender == 'M') {
+      BMR = 88.362 + (13.397 * user.weight) + (4.799 * user.height) - (5.677 * user.age);
+    } else {
+      BMR = 447.593 + (9.247 * user.weight) + (3.098 * user.height) - (4.330 * user.age);
+    }
+    print('BMR: $BMR');
 
-  // Adjust calories for goal
-  double adjustedCalories = bmrCalculator.adjustCaloriesForGoal(tdee, goal);
-  print('Adjusted Calories for Goal ($goal): $adjustedCalories');
+    BMRCalculator bmrCalculator = BMRCalculator();
+    double tdee = bmrCalculator.calculateTDEE(BMR, options.selectedOption2);
+    double adjustedCalories = bmrCalculator.adjustCaloriesForGoal(tdee, options.selectedOption1);
+    print('TDEE: $tdee');
+    print('Adjusted Calories for Goal: $adjustedCalories');
+
+    Provider.of<CaloriesProvider>(context, listen: false).setAdjustedCalories(adjustedCalories);
+  } else {
+    print('No user is currently logged in.');
+  }
 }
