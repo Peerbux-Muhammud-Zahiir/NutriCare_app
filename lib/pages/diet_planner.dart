@@ -43,7 +43,7 @@ class _DietPlannerState extends State<DietPlanner> {
               ),
               const SizedBox(height: 10.0),
               GridView.count(
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 crossAxisCount: 2,
                 crossAxisSpacing: 15.0,
                 mainAxisSpacing: 15.0,
@@ -64,9 +64,61 @@ class _DietPlannerState extends State<DietPlanner> {
                 ],
               ),
               const SizedBox(height: 15.0),
+              Text(
+                'I want to eat',
+                style: TextStyle(
+                  color: Colors.green[800],
+                  fontSize: 19.0,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
               const SizedBox(height: 10.0),
+              TextField(
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    borderSide: BorderSide.none,
+                  ),
+                  filled: true,
+                  fillColor: Colors.green[200],
+                  hintText: '1500 Calories',
+                  hintStyle: TextStyle(
+                    color: Colors.green[500],
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15.0,
+                  ),
+                  suffixText: 'Not sure?',
+                  suffixStyle: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 15.0,
+                  ),
+                ),
+              ),
               const SizedBox(height: 15.0),
+              Text(
+                'in how many meals?',
+                style: TextStyle(
+                  color: Colors.green[800],
+                  fontSize: 19.0,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
               const SizedBox(height: 10.0),
+              DropdownButton<String>(
+                value: selected,
+                onChanged: (String? newValue) {
+                  setState(() {
+                    selected = newValue!;
+                  });
+                },
+                items: meals.map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+              ),
               const SizedBox(height: 15.0),
               Text(
                 'Weight',
@@ -92,7 +144,7 @@ class _DietPlannerState extends State<DietPlanner> {
                           });
                         },
                       ),
-                      Text('Gain'),
+                      const Text('Gain'),
                     ],
                   ),
                   Row(
@@ -106,7 +158,7 @@ class _DietPlannerState extends State<DietPlanner> {
                           });
                         },
                       ),
-                      Text('Maintain'),
+                      const Text('Maintain'),
                     ],
                   ),
                   Row(
@@ -120,7 +172,7 @@ class _DietPlannerState extends State<DietPlanner> {
                           });
                         },
                       ),
-                      Text('Lose'),
+                      const Text('Lose'),
                     ],
                   ),
                 ],
@@ -150,7 +202,7 @@ class _DietPlannerState extends State<DietPlanner> {
                           });
                         },
                       ),
-                      Text('Little'),
+                      const Text('Little'),
                     ],
                   ),
                   Row(
@@ -164,7 +216,7 @@ class _DietPlannerState extends State<DietPlanner> {
                           });
                         },
                       ),
-                      Text('Below average'),
+                      const Text('Below average'),
                     ],
                   ),
                   Row(
@@ -178,7 +230,7 @@ class _DietPlannerState extends State<DietPlanner> {
                           });
                         },
                       ),
-                      Text('Average'),
+                      const Text('Average'),
                     ],
                   ),
                   Row(
@@ -192,7 +244,7 @@ class _DietPlannerState extends State<DietPlanner> {
                           });
                         },
                       ),
-                      Text('High'),
+                      const Text('High'),
                     ],
                   ),
                   Row(
@@ -206,7 +258,7 @@ class _DietPlannerState extends State<DietPlanner> {
                           });
                         },
                       ),
-                      Text('Very active'),
+                      const Text('Very active'),
                     ],
                   ),
                 ],

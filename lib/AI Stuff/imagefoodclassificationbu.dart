@@ -1,31 +1,15 @@
 import 'dart:typed_data';
-import 'package:flutter/material.dart';
-import 'package:tflite_flutter/tflite_flutter.dart' as tfl;
 import 'package:flutter/services.dart' show ByteData, rootBundle;
 import 'package:image/image.dart' as img;
+import 'package:image_picker/image_picker.dart';
+import 'package:tflite_flutter/tflite_flutter.dart' as tfl;
 
-class FoodClassification extends StatefulWidget {
-  const FoodClassification({super.key});
-
-  @override
-  State<FoodClassification> createState() => _FoodClassificationState();
-}
-
-class _FoodClassificationState extends State<FoodClassification> {
+class FoodClassification {
   late tfl.Interpreter interpreter;
-  String _predictedLabel = ''; // Variable to store the predicted label
-  Uint8List? _resizedImageBytes; // Variable to store the resized image bytes
+  final ImagePicker _picker = ImagePicker();
 
-  @override
-  void initState() {
-    super.initState();
+  FoodClassification() {
     _initTensorFlow();
-  }
-
-  @override
-  void dispose() {
-    interpreter.close();
-    super.dispose();
   }
 
   Future<void> _initTensorFlow() async {
@@ -37,37 +21,14 @@ class _FoodClassificationState extends State<FoodClassification> {
     }
   }
 
-  Uint8List imageToByteListUint8(Uint8List imageBytes, int width, int height, int channels) {
-    // Decode the image
-    img.Image image = img.decodeImage(imageBytes)!;
-
-    // Resize the image
-    img.Image resizedImage = img.copyResize(image, width: width, height: height);
-
-    // Create a byte buffer with the required size
-    var buffer = Uint8List(width * height * channels);
-
-    // Fill the buffer with normalized pixel values
-    for (int y = 0; y < height; y++) {
-      for (int x = 0; x < width; x++) {
-        int pixel = resizedImage.getPixel(x, y);
-        buffer[(y * width + x) * channels + 0] = (img.getRed(pixel) / 255.0).toInt();
-        buffer[(y * width + x) * channels + 1] = (img.getGreen(pixel) / 255.0).toInt();
-        buffer[(y * width + x) * channels + 2] = (img.getBlue(pixel) / 255.0).toInt();
-      }
-    }
-
-    return buffer;
+  Future<Map<String, dynamic>?> classifyImageFromSource(XFile image) async {
+    final Uint8List imageBytes = await image.readAsBytes();
+    return await _runModelOnImage(imageBytes, image.path);
   }
 
-  Future<void> FileImageRecognition() async {
+  Future<Map<String, dynamic>> _runModelOnImage(Uint8List imageBytes, String imagePath) async {
     try {
-      // Load the image from assets
-      ByteData imageData = await rootBundle.load('assets/biryani.jpg');
-      Uint8List imageBytes = imageData.buffer.asUint8List();
       img.Image image = img.decodeImage(imageBytes)!;
-
-      // Preprocess the image to match the input tensor shape and type
       img.Image resizedImage = img.copyResize(image, width: 224, height: 224);
       var input = List.generate(1, (i) => List.generate(224, (j) => List.generate(224, (k) => List.generate(3, (l) => 0))));
       for (int y = 0; y < 224; y++) {
@@ -79,102 +40,50 @@ class _FoodClassificationState extends State<FoodClassification> {
         }
       }
 
-      // Convert resized image to bytes for display
-      Uint8List resizedImageBytes = Uint8List.fromList(img.encodeJpg(resizedImage));
-
-      // Define output tensor with shape [1, 2024] and type float32
       var output = List.filled(1 * 2024, 0.0).reshape([1, 2024]);
-
-      // Run inference
       interpreter.run(input, output);
 
-      // Print the output
-      print(output);
-
-      // Load labels directly from CSV
-      final labels = await _loadLabelsFromCsv('assets/foodpretrainedmodel.csv');
-
-      // Debug print: Contents of the labels list
-      print('Labels: $labels');
-
-      // Find the index of the highest value in the output tensor
+      final labelsAndCalories = await _loadLabelsAndCaloriesFromCsv('assets/foodpretrainedmodel2.csv');
       List<dynamic> cleanedOutput = output[0].map((e) => e.toDouble()).toList();
 
-      double maxValue = double.negativeInfinity; // Initialize maxValue with a very small value
-      int maxIndex = -1; // Initialize maxIndex with -1
+      double maxValue = double.negativeInfinity;
+      int maxIndex = -1;
 
-      // Iterate through the cleaned output tensor to find the highest confidence value and its index
       for (int i = 0; i < cleanedOutput.length; i++) {
         if (cleanedOutput[i] > maxValue) {
-          maxValue = cleanedOutput[i] as double;
+          maxValue = cleanedOutput[i];
           maxIndex = i;
         }
       }
 
-      // Set the predicted label and resized image bytes based on the confidence value
-      setState(() {
-        if (maxValue > 150) {
-          _predictedLabel = labels[maxIndex];
-        } else {
-          _predictedLabel = 'nothing detected'; // or 'No prediction' if you prefer
-        }
-        _resizedImageBytes = resizedImageBytes;
-      });
-
-      // Debug print: Highest value and index
-      print('Highest value: $maxValue at index: $maxIndex');
+      if (maxValue > 25) {
+        String predictedLabel = labelsAndCalories.keys.elementAt(maxIndex);
+        String predictedCalories = labelsAndCalories[predictedLabel] ?? 'Unknown';
+        return {'label': predictedLabel, 'calories': predictedCalories, 'imageBytes': imageBytes};
+      } else {
+        return {'error': 'Nothing detected'};
+      }
     } catch (e) {
       print('Failed to run model on image: $e');
+      return {'error': 'Failed to run model on image'};
     }
   }
 
-  Future<List<String>> _loadLabelsFromCsv(String csvFilePath) async {
+  Future<Map<String, String>> _loadLabelsAndCaloriesFromCsv(String csvFilePath) async {
     try {
-      // Load the CSV file
       final csvData = await rootBundle.loadString(csvFilePath);
-
-      // Parse the CSV data
       final lines = csvData.split('\n');
-      final labels = <String>[];
-      for (var i = 1; i < lines.length; i++) { // Skip the first line (header)
+      final Map<String, String> labelsAndCalories = {};
+      for (var i = 1; i < lines.length; i++) {
         final parts = lines[i].split(',');
-        if (parts.length > 1) {
-          labels.add(parts[1].trim());
+        if (parts.length > 2) {
+          labelsAndCalories[parts[1].trim()] = parts[2].trim();
         }
       }
-      return labels;
+      return labelsAndCalories;
     } catch (e) {
-      print('Failed to load labels from CSV: $e');
-      return [];
+      print('Failed to load labels and calories from CSV: $e');
+      return {};
     }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Food Classification'),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ElevatedButton(
-              onPressed: FileImageRecognition,
-              child: Text('Run Model'),
-            ),
-            SizedBox(height: 20),
-            Text(
-              'Predicted Label: $_predictedLabel',
-              style: TextStyle(fontSize: 20),
-            ),
-            SizedBox(height: 20),
-            _resizedImageBytes != null
-                ? Image.memory(_resizedImageBytes!)
-                : Container(),
-          ],
-        ),
-      ),
-    );
   }
 }

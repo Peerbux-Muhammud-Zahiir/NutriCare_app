@@ -1,10 +1,12 @@
 import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:nutricare/AI%20Stuff/camerastream.dart';
 import 'package:nutricare/AI%20Stuff/imagefoodclassification.dart';
 import 'package:nutricare/nutritionix/nutrionixsearch.dart';
+import 'package:nutricare/firebasestuff/storage.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -14,10 +16,30 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  String _result = '';
-  String _imageUrl = '';
-  Uint8List? _imageBytes;
+  List<Map<String, dynamic>> _foodList = [];
+  bool _isUploading = false;
+  bool _isProcessing = false;
   final FoodClassification _foodClassification = FoodClassification();
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final StorageMethods _storageMethods = StorageMethods();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadFoodList();
+  }
+
+  Future<void> _loadFoodList() async {
+    String uid = _auth.currentUser!.uid;
+    QuerySnapshot snapshot = await _firestore.collection('foods').where('uid', isEqualTo: uid).get();
+    setState(() {
+      _foodList = snapshot.docs
+          .map((doc) => doc.data() as Map<String, dynamic>)
+          .where((food) => !food['name'].contains('Calorie') && !food['name'].contains('detected'))
+          .toList();
+    });
+  }
 
   void _showChatbotDialog(BuildContext context) {
     showDialog(
@@ -45,16 +67,48 @@ class _HomeState extends State<Home> {
   }
 
   void _onItemSelected(String name, double calories, double cholesterol, String imageUrl) {
-    setState(() {
-      _result = 'Food: $name\nCalories: $calories';
-      _imageUrl = imageUrl;
-    });
+    if (!name.contains('Calorie') && !name.contains('detected')) {
+      setState(() {
+        _foodList.add({
+          'name': name,
+          'calories': calories,
+          'imageUrl': imageUrl,
+        });
+      });
+    }
   }
 
-  void _onFoodDetected(String label, String calories, Uint8List imageBytes) {
+  void _onFoodDetected(String label, String calories, Uint8List imageBytes) async {
+    if (label.contains('Calorie') || label.contains('detected') || _isProcessing) {
+      return;
+    }
+
     setState(() {
-      _result = 'Food: $label\nCalories: $calories';
-      _imageBytes = imageBytes;
+      _isUploading = true;
+      _isProcessing = true;
+    });
+
+    // Upload image to Firebase Storage
+    String imageUrl = await _storageMethods.uploadImageToStorage('foodImages', imageBytes);
+
+    // Save food details to Firestore
+    String uid = _auth.currentUser!.uid;
+    await _firestore.collection('foods').add({
+      'uid': uid,
+      'name': label,
+      'calories': calories,
+      'imageUrl': imageUrl,
+    });
+
+    // Update local list
+    setState(() {
+      _foodList.add({
+        'name': label,
+        'calories': calories,
+        'imageUrl': imageUrl,
+      });
+      _isUploading = false;
+      _isProcessing = false;
     });
   }
 
@@ -154,29 +208,36 @@ class _HomeState extends State<Home> {
       ),
       body: Stack(
         children: [
-          Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                if (_imageUrl.isNotEmpty)
-                  Image.network(_imageUrl, height: 100, width: 100),
-                if (_imageBytes != null)
-                  Image.memory(_imageBytes!, height: 100, width: 100),
-                Text(_result, style: const TextStyle(fontSize: 20)),
-              ],
-            ),
+          ListView.builder(
+            itemCount: _foodList.length,
+            itemBuilder: (context, index) {
+              var food = _foodList[index];
+              return ListTile(
+                leading: Image.network(
+                  food['imageUrl'],
+                  height: 50,
+                  width: 50,
+                  loadingBuilder: (context, child, loadingProgress) {
+                    if (loadingProgress == null) return child;
+                    return Center(child: CircularProgressIndicator());
+                  },
+                ),
+                title: Text(food['name']),
+                subtitle: Text('Calories: ${food['calories']}'),
+              );
+            },
           ),
-          Positioned(
-            bottom: 20.0,
-            right: 20.0,
-            child: FloatingActionButton(
-              onPressed: () {
-                _showContextMenu(context);
-              },
-              child: const Icon(Icons.add),
+          if (_isUploading)
+            Center(
+              child: CircularProgressIndicator(),
             ),
-          ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          _showContextMenu(context);
+        },
+        child: const Icon(Icons.add),
       ),
     );
   }
