@@ -33,8 +33,6 @@ NutriCare is designed to help users maintain a healthy lifestyle by providing cu
   - **Role**: Designer
 - **Joel Mappa** 🧑‍💻
   - **Role**: Flutter Developer
-- **Koheeallee Muhammad Ali** 🧑‍🔧
-  - **Role**: DevOps Specialist
 
 ## Getting Started 🚀
 
