@@ -33,10 +33,10 @@ class _DietPlannerState extends State<DietPlanner> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               const SizedBox(height: 50.0),
-              Text(
+              const Text(
                 'Let us know your diet.',
                 style: TextStyle(
-                  color: Colors.green[800],
+                  color: Color(0xFF2abca4),
                   fontSize: 25.0,
                   fontWeight: FontWeight.bold,
                 ),
@@ -55,10 +55,10 @@ class _DietPlannerState extends State<DietPlanner> {
                   _buildImageCard('https://i.ibb.co/dDD37dp/female-olympic-athlete-running-marathon-person-celebrate-summer-games-athletics-medal-sportive-peopl.png', 'Athletes', () {
                     _updateSelectedCategory('Athletes');
                   }),
-                  _buildImageCard('', 'Diabetic Patients', () {
+                  _buildImageCard('https://i.ibb.co/hy22JF5/doctor-and-people-check-blood-sugar-level-with-glucose-meter-diabetes-type-two-check-up-diet-for-non.png', 'Diabetic Patients', () {
                     _updateSelectedCategory('Diabetic Patients');
                   }),
-                  _buildImageCard('https://static.vecteezy.com/system/resources/thumbnails/002/226/928/small/kawaii-heart-versus-high-cholesterol-levels-vector.jpg', 'Cholesterol Patients', () {
+                  _buildImageCard('https://i.ibb.co/27qPCKW/kawaii-heart-versus-high-cholesterol-levels-vector-removebg-preview.png', 'Cholesterol Patients', () {
                     _updateSelectedCategory('Cholesterol Patients');
                   }),
                 ],
@@ -68,10 +68,10 @@ class _DietPlannerState extends State<DietPlanner> {
               const SizedBox(height: 15.0),
               const SizedBox(height: 10.0),
               const SizedBox(height: 15.0),
-              Text(
+              const Text(
                 'Weight',
                 style: TextStyle(
-                  color: Colors.green[800],
+                  color: Color(0xFF2abca4),
                   fontSize: 19.0,
                   fontWeight: FontWeight.w600,
                 ),
@@ -126,10 +126,10 @@ class _DietPlannerState extends State<DietPlanner> {
                 ],
               ),
               const SizedBox(height: 20.0),
-              Text(
+              const Text(
                 'Activity',
                 style: TextStyle(
-                  color: Colors.green[800],
+                  color: Color(0xFF2abca4),
                   fontSize: 19.0,
                   fontWeight: FontWeight.w600,
                 ),
@@ -248,7 +248,7 @@ class _DietPlannerState extends State<DietPlanner> {
     return GestureDetector(
       onTap: onPress,
       child: Card(
-        color: isSelected ? Colors.green[200] : Colors.white, // Change card color when selected
+        color: isSelected ? Color(0xFF2abca4) : Colors.white, // Change card color when selected
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

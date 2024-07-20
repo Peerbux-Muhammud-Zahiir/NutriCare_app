@@ -4,7 +4,9 @@ import 'package:nutricare/AI Chatbot/view/screens/chat_screen/ui/chat_bubble.dar
 import 'package:nutricare/AI Chatbot/view/screens/chat_screen/ui/write_message_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:nutricare/pages/home2.dart';
+
+import 'package:nutricare/pages/home.dart';
+import 'package:nutricare/randomutilities/bottomnavigationbarpagemanager.dart';
 
 class ChatScreen extends StatelessWidget {
   const ChatScreen({super.key});
@@ -16,9 +18,11 @@ class ChatScreen extends StatelessWidget {
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.push(
+            Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => Home2()),
+              MaterialPageRoute(
+                builder: (context) => PageManager(initialPage: 2), // Index for Home page
+              )
             );
           },
 

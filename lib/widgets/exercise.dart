@@ -1,67 +1,78 @@
 import 'package:flutter/material.dart';
 
-class ExerciseTile extends StatelessWidget {
+class ExerciseTile extends StatefulWidget {
   final IconData icon;
   final String exerciseName;
-  final int numberOfExercises;
+  final Color color;
+  final VoidCallback onTap;
+  final bool isSelected;
+  final String description;
 
   const ExerciseTile({
-    Key? key,
     required this.icon,
     required this.exerciseName,
-    required this.numberOfExercises,
-  }) : super(key: key);
+    required this.color,
+    required this.onTap,
+    required this.isSelected,
+    required this.description,
+  });
+
+  @override
+  _ExerciseTileState createState() => _ExerciseTileState();
+}
+
+class _ExerciseTileState extends State<ExerciseTile> {
+  Color borderColor = Colors.transparent;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 12.0),
+    return GestureDetector(
+      onTap: () {
+        widget.onTap();
+        setState(() {
+          borderColor = widget.color.withOpacity(0.6); // Change border color on tap
+        });
+      },
+      onTapCancel: () {
+        setState(() {
+          borderColor = Colors.transparent; // Reset border color if tap is canceled
+        });
+      },
+      onTapUp: (_) {
+        setState(() {
+          borderColor = widget.color; // Restore original border color on tap up
+        });
+      },
       child: Container(
-        padding: EdgeInsets.all(16),
+        margin: const EdgeInsets.symmetric(vertical: 8),
+        padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(16),
+          color: widget.color,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: borderColor, width: 2), // Dynamic border color
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.3),
+              spreadRadius: 2,
+              blurRadius: 5,
+              offset: const Offset(0, 3),
+            ),
+          ],
         ),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Row(
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(12),
-                  child: Container(
-                    padding: EdgeInsets.all(16),
-                    color: Colors.orange,
-                    child: Icon(
-                      icon,
-                      color: Colors.white,
-                    ),
-                  ),
+            Icon(widget.icon, color: Colors.white),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Text(
+                widget.exerciseName,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
                 ),
-                SizedBox(width: 12),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      exerciseName,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                      ),
-                    ),
-                    SizedBox(height: 5),
-                    Text(
-                      '$numberOfExercises Exercises',
-                      style: TextStyle(
-                        color: Colors.grey[600],
-                        fontSize: 14,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
+              ),
             ),
-            Icon(Icons.more_horiz),
           ],
         ),
       ),

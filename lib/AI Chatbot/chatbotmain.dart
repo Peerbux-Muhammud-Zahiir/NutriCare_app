@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 
-void chatbotmain() {
-  runApp(const Injector(child: MainApp()));
+class ChatbotMain extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return const Injector(child: MainApp());
+  }
 }
-
 

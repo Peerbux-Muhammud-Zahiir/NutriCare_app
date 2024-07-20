@@ -27,7 +27,7 @@ Widget buildMessageItem(ChatMessage message, String currentUserUsername) {
         margin: EdgeInsets.symmetric(vertical: 4.0),
         padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 14.0),
         decoration: BoxDecoration(
-          color: Colors.blue[100],
+          color: Colors.orange[700],
           borderRadius: BorderRadius.circular(20),
         ),
         child: Column(
@@ -35,7 +35,10 @@ Widget buildMessageItem(ChatMessage message, String currentUserUsername) {
           children: [
             Text(
               message.text,
-              style: TextStyle(fontSize: 16),
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.white, // Set the text color to white
+              ),
               textAlign: TextAlign.center,
             ),
           ],
@@ -48,7 +51,7 @@ Widget buildMessageItem(ChatMessage message, String currentUserUsername) {
         margin: EdgeInsets.symmetric(vertical: 4.0),
         padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 14.0),
         decoration: BoxDecoration(
-          color: Colors.green[100],
+          color: Color(0xFF2abca4),
           borderRadius: BorderRadius.circular(20),
         ),
         child: Column(
@@ -56,7 +59,10 @@ Widget buildMessageItem(ChatMessage message, String currentUserUsername) {
           children: [
             Text(
               message.text,
-              style: TextStyle(fontSize: 16),
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.white, // Set the text color to white
+              ),
               textAlign: TextAlign.center,
             ),
           ],
