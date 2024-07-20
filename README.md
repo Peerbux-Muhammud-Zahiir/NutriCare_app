@@ -40,4 +40,8 @@ Follow these steps to set up the project locally:
 
 1. **Clone the repository**:
 
+   ```bash
    git clone https://github.com/yourusername/nutricare.git
+   ```
+
+For more details on the project proposal, you can access the full document [here](https://drive.google.com/file/d/1C9fhYr2yK6pDJJNT-PbpZzZc80VQoM6u/view?usp=sharing).
