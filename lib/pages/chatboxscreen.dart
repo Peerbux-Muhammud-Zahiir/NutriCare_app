@@ -14,7 +14,7 @@ class ChatBoxScreen extends StatelessWidget {
       body: Center(
         child: ElevatedButton(
           onPressed: () {
-            chatbotmain();
+            Navigator.pushNamed(context, '/Chatbot');
           },
           child: Text('Start Chat'),
         ),

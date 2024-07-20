@@ -40,7 +40,7 @@ class _DietPlannerState extends State<DietPlanner> {
               Text(
                 'Let us know your diet.',
                 style: TextStyle(
-                  color: Colors.green[800],
+                  color: Color(0xFF2abca4),
                   fontSize: 25.0,
                   fontWeight: FontWeight.bold,
                 ),
@@ -56,78 +56,82 @@ class _DietPlannerState extends State<DietPlanner> {
                   _buildImageCard('https://i.ibb.co/pZcwHZ0/file-1.png', 'Pregnant Women', () {
                     _updateSelectedCategory('Pregnant Women');
                   }),
-                  _buildImageCard('https://thumbs.dreamstime.com/b/female-olympic-athlete-running-marathon-person-celebrate-summer-games-athletics-medal-sportive-people-celebrating-track-field-174309058.jpg', 'Athletes', () {
+                  _buildImageCard('https://i.ibb.co/dDD37dp/female-olympic-athlete-running-marathon-person-celebrate-summer-games-athletics-medal-sportive-peopl.png', 'Athletes', () {
                     _updateSelectedCategory('Athletes');
                   }),
-                  _buildImageCard('https://static.vecteezy.com/system/resources/previews/001/879/424/non_2x/doctor-and-people-check-blood-sugar-level-with-glucose-meter-diabetes-type-two-check-up-diet-for-non-communicable-diseases-checking-insulin-illustration-for-business-card-banner-brochure-flyer-free-vector.jpg', 'Diabetic Patients', () {
+                  _buildImageCard('https://i.ibb.co/hy22JF5/doctor-and-people-check-blood-sugar-level-with-glucose-meter-diabetes-type-two-check-up-diet-for-non.png', 'Diabetic Patients', () {
                     _updateSelectedCategory('Diabetic Patients');
                   }),
-                  _buildImageCard('https://static.vecteezy.com/system/resources/thumbnails/002/226/928/small/kawaii-heart-versus-high-cholesterol-levels-vector.jpg', 'Cholesterol Patients', () {
+                  _buildImageCard('https://i.ibb.co/27qPCKW/kawaii-heart-versus-high-cholesterol-levels-vector-removebg-preview.png', 'Cholesterol Patients', () {
                     _updateSelectedCategory('Cholesterol Patients');
                   }),
                 ],
               ),
               const SizedBox(height: 15.0),
-              Text(
-                'I want to eat',
-                style: TextStyle(
-                  color: Colors.green[800],
-                  fontSize: 19.0,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
               const SizedBox(height: 10.0),
-              TextField(
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                    borderSide: BorderSide.none,
-                  ),
-                  filled: true,
-                  fillColor: Colors.green[200],
-                  hintText: '1500 Calories',
-                  hintStyle: TextStyle(
-                    color: Colors.green[500],
-                    fontWeight: FontWeight.bold,
-                    fontSize: 15.0,
-                  ),
-                  suffixText: 'Not sure?',
-                  suffixStyle: const TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 15.0,
-                  ),
-                ),
-              ),
               const SizedBox(height: 15.0),
-              Text(
-                'in how many meals?',
-                style: TextStyle(
-                  color: Colors.green[800],
-                  fontSize: 19.0,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
               const SizedBox(height: 10.0),
-              DropdownButton<String>(
-                value: selected,
-                onChanged: (String? newValue) {
-                  setState(() {
-                    selected = newValue!;
-                  });
-                },
-                items: meals.map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-              ),
+              const SizedBox(height: 15.0),
+              // Text(
+              //   'I want to eat',
+              //   style: TextStyle(
+              //     color: Colors.green[800],
+              //     fontSize: 19.0,
+              //     fontWeight: FontWeight.w600,
+              //   ),
+              // ),
+              // const SizedBox(height: 10.0),
+              // TextField(
+              //   decoration: InputDecoration(
+              //     border: OutlineInputBorder(
+              //       borderRadius: BorderRadius.circular(10.0),
+              //       borderSide: BorderSide.none,
+              //     ),
+              //     filled: true,
+              //     fillColor: Colors.green[200],
+              //     hintText: '1500 Calories',
+              //     hintStyle: TextStyle(
+              //       color: Colors.green[500],
+              //       fontWeight: FontWeight.bold,
+              //       fontSize: 15.0,
+              //     ),
+              //     suffixText: 'Not sure?',
+              //     suffixStyle: const TextStyle(
+              //       color: Colors.white,
+              //       fontWeight: FontWeight.w600,
+              //       fontSize: 15.0,
+              //     ),
+              //   ),
+              // ),
+              // const SizedBox(height: 15.0),
+              // Text(
+              //   'in how many meals?',
+              //   style: TextStyle(
+              //     color: Colors.green[800],
+              //     fontSize: 19.0,
+              //     fontWeight: FontWeight.w600,
+              //   ),
+              // ),
+              // const SizedBox(height: 10.0),
+              // DropdownButton<String>(
+              //   value: selected,
+              //   onChanged: (String? newValue) {
+              //     setState(() {
+              //       selected = newValue!;
+              //     });
+              //   },
+              //   items: meals.map<DropdownMenuItem<String>>((String value) {
+              //     return DropdownMenuItem<String>(
+              //       value: value,
+              //       child: Text(value),
+              //     );
+              //   }).toList(),
+              // ),
               const SizedBox(height: 15.0),
               Text(
                 'Weight',
                 style: TextStyle(
-                  color: Colors.green[800],
+                  color: Color(0xFF2abca4),
                   fontSize: 19.0,
                   fontWeight: FontWeight.w600,
                 ),
@@ -185,7 +189,7 @@ class _DietPlannerState extends State<DietPlanner> {
               Text(
                 'Activity',
                 style: TextStyle(
-                  color: Colors.green[800],
+                  color: Color(0xFF2abca4),
                   fontSize: 19.0,
                   fontWeight: FontWeight.w600,
                 ),
@@ -271,7 +275,15 @@ class _DietPlannerState extends State<DietPlanner> {
               Center(
                 child: ElevatedButton(
                   onPressed: _onApplySettingsPressed,
-                  child: const Text('Apply Settings'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color(0xFF2abca4), // Set the button color to green
+                  ),
+                  child: const Text('Apply Settings',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+
+                  ),
                 ),
               ),
             ],
@@ -287,21 +299,24 @@ class _DietPlannerState extends State<DietPlanner> {
     return GestureDetector(
       onTap: onPress,
       child: Card(
-        child: Stack(
-          alignment: Alignment.center,
+        color: isSelected ? Color(0xFF2abca4) : Colors.white, // Change card color when selected
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Column(
-              children: [
-                Image.network(imageUrl, fit: BoxFit.cover),
-                Text(title, style: TextStyle(fontSize: 16)),
-              ],
+            Image.network(
+              imageUrl,
+              height: 100,
+              width: 100,
+              fit: BoxFit.cover,
             ),
-            if (isSelected)
-              Positioned(
-                top: 0,
-                right: 0,
-                child: Icon(Icons.check_circle, color: Colors.green),
+            const SizedBox(height: 8),
+            Text(
+              title,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: isSelected ? Colors.white : Colors.black, // Change text color when selected
               ),
+            ),
           ],
         ),
       ),

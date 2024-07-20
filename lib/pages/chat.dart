@@ -45,14 +45,13 @@ class _ChatState extends State<Chat> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.white,
-      appBar: AppBar(title: Text('Chat',
+      appBar: AppBar(title: Text('Forum',
         style: TextStyle(
-          color: Color(0xFF2abca4),
-
+          color: Colors.white,
         )),
         centerTitle: true,
         elevation: 0.0,
-          backgroundColor: Colors.white,
+          backgroundColor: Color(0xFF2abca4),
           automaticallyImplyLeading: false,
 
       ),

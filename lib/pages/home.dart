@@ -2,6 +2,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:nutricare/AI%20Chatbot/chatbotmain.dart';
+import 'package:nutricare/AI%20Chatbot/view/screens/chat_screen/chat_screen.dart';
 import 'package:nutricare/AI%20Stuff/camerastream.dart';
 import 'package:nutricare/AI%20Stuff/imagefoodclassification.dart';
 import 'package:nutricare/nutritionix/nutrionixsearch.dart';
@@ -14,7 +15,8 @@ import 'dart:math';
 import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
-  const Home({super.key});
+  final Color backgroundColor;
+  const Home({super.key, this.backgroundColor=Colors.white});
 
   @override
   State<Home> createState() => _HomeState();
@@ -230,6 +232,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
       double maxCalories = Provider.of<CaloriesProvider>(context).adjustedCalories;
 
     return Scaffold(
+      backgroundColor: widget.backgroundColor,
       appBar: AppBar(
         title: const Text(
           'Calorie Tracker',
@@ -312,7 +315,10 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
               right: 20,
               child: FloatingActionButton(
                 onPressed: () {
-                  chatbotmain(); // Call the chatbotmain function directly
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ChatbotMain()),
+                  );
                 },
                 child: Image.asset('assets/robot.png'), // Ensure this path is correct
               ),
