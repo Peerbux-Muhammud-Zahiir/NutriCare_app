@@ -1,19 +1,16 @@
 import 'dart:typed_data';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
-
-
 class StorageMethods {
-
   final FirebaseStorage _storage = FirebaseStorage.instance;
-  final FirebaseAuth _auth= FirebaseAuth.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  // add image to firebase storage
+  // Add image to Firebase Storage
   Future<String> uploadImageToStorage(String childName, Uint8List file) async {
-    Reference ref = _storage.ref().child(childName).child(_auth.currentUser!.uid);
+    String uid = _auth.currentUser!.uid;
+    Reference ref = _storage.ref().child(uid).child(childName).child(Uuid().v4());
 
     // Create metadata for the image
     SettableMetadata metadata = SettableMetadata(
