@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:nutricare/widgets/food_type_card.dart';
+import 'package:nutricare/randomutilities/equations.dart';
 
 class DietPlanner extends StatefulWidget {
   const DietPlanner({super.key});
@@ -21,6 +20,11 @@ class _DietPlannerState extends State<DietPlanner> {
   bool isMedSelected = false;
   bool isPaleoSelected = false;
   String? selectedCategory; // To store the currently selected category
+
+  void _onApplySettingsPressed() {
+    SelectedOptions options = SelectedOptions(_selectedOption1, _selectedOption2);
+    calculateDietWithContext(options, context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -134,8 +138,8 @@ class _DietPlannerState extends State<DietPlanner> {
                 runSpacing: 10,
                 children: <Widget>[
                   Row(
-                    children: <Widget>[
-                      Radio<int>(
+                    children: [
+                      Radio(
                         value: 1,
                         groupValue: _selectedOption1,
                         onChanged: (int? value) {
@@ -144,12 +148,12 @@ class _DietPlannerState extends State<DietPlanner> {
                           });
                         },
                       ),
-                      const Text('Gain'),
+                      const Text('Gain Weight'),
                     ],
                   ),
                   Row(
-                    children: <Widget>[
-                      Radio<int>(
+                    children: [
+                      Radio(
                         value: 2,
                         groupValue: _selectedOption1,
                         onChanged: (int? value) {
@@ -158,12 +162,12 @@ class _DietPlannerState extends State<DietPlanner> {
                           });
                         },
                       ),
-                      const Text('Maintain'),
+                      const Text('Maintain Weight'),
                     ],
                   ),
                   Row(
-                    children: <Widget>[
-                      Radio<int>(
+                    children: [
+                      Radio(
                         value: 3,
                         groupValue: _selectedOption1,
                         onChanged: (int? value) {
@@ -172,7 +176,7 @@ class _DietPlannerState extends State<DietPlanner> {
                           });
                         },
                       ),
-                      const Text('Lose'),
+                      const Text('Lose Weight'),
                     ],
                   ),
                 ],
@@ -192,8 +196,8 @@ class _DietPlannerState extends State<DietPlanner> {
                 runSpacing: 10,
                 children: <Widget>[
                   Row(
-                    children: <Widget>[
-                      Radio<int>(
+                    children: [
+                      Radio(
                         value: 1,
                         groupValue: _selectedOption2,
                         onChanged: (int? value) {
@@ -202,12 +206,12 @@ class _DietPlannerState extends State<DietPlanner> {
                           });
                         },
                       ),
-                      const Text('Little'),
+                      const Text('Sedentary'),
                     ],
                   ),
                   Row(
-                    children: <Widget>[
-                      Radio<int>(
+                    children: [
+                      Radio(
                         value: 2,
                         groupValue: _selectedOption2,
                         onChanged: (int? value) {
@@ -216,12 +220,12 @@ class _DietPlannerState extends State<DietPlanner> {
                           });
                         },
                       ),
-                      const Text('Below average'),
+                      const Text('Lightly active'),
                     ],
                   ),
                   Row(
-                    children: <Widget>[
-                      Radio<int>(
+                    children: [
+                      Radio(
                         value: 3,
                         groupValue: _selectedOption2,
                         onChanged: (int? value) {
@@ -230,27 +234,13 @@ class _DietPlannerState extends State<DietPlanner> {
                           });
                         },
                       ),
-                      const Text('Average'),
+                      const Text('Moderately active'),
                     ],
                   ),
                   Row(
-                    children: <Widget>[
-                      Radio<int>(
+                    children: [
+                      Radio(
                         value: 4,
-                        groupValue: _selectedOption2,
-                        onChanged: (int? value) {
-                          setState(() {
-                            _selectedOption2 = value!;
-                          });
-                        },
-                      ),
-                      const Text('High'),
-                    ],
-                  ),
-                  Row(
-                    children: <Widget>[
-                      Radio<int>(
-                        value: 5,
                         groupValue: _selectedOption2,
                         onChanged: (int? value) {
                           setState(() {
@@ -261,7 +251,28 @@ class _DietPlannerState extends State<DietPlanner> {
                       const Text('Very active'),
                     ],
                   ),
+                  Row(
+                    children: [
+                      Radio(
+                        value: 5,
+                        groupValue: _selectedOption2,
+                        onChanged: (int? value) {
+                          setState(() {
+                            _selectedOption2 = value!;
+                          });
+                        },
+                      ),
+                      const Text('Extra active'),
+                    ],
+                  ),
                 ],
+              ),
+              const SizedBox(height: 20.0),
+              Center(
+                child: ElevatedButton(
+                  onPressed: _onApplySettingsPressed,
+                  child: const Text('Apply Settings'),
+                ),
               ),
             ],
           ),
@@ -280,31 +291,16 @@ class _DietPlannerState extends State<DietPlanner> {
           alignment: Alignment.center,
           children: [
             Column(
-              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.network(
-                  imageUrl,
-                  height: 100,
-                  width: 100,
-                  fit: BoxFit.cover,
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  title,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+                Image.network(imageUrl, fit: BoxFit.cover),
+                Text(title, style: TextStyle(fontSize: 16)),
               ],
             ),
             if (isSelected)
-              const Padding( // Add padding to position the icon nicely
-                padding: EdgeInsets.only(left: 150.0, top: 150.0),
-                child: Icon(
-                  Icons.check_circle,
-                  color: Color(0xFF2abca4),
-                  size: 35,
-                ),
+              Positioned(
+                top: 0,
+                right: 0,
+                child: Icon(Icons.check_circle, color: Colors.green),
               ),
           ],
         ),

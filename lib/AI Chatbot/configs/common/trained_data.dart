@@ -1,3 +1,32 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:nutricare/models/usermodel.dart';
+import 'package:nutricare/firebasestuff/authentication.dart';
+
+Future<UserModel?> getUserDetails() async {
+  Authentication auth = Authentication();
+  return await auth.getUserDetails();
+}
+
+void updateIntroduction() async {
+  UserModel? user = await getUserDetails();
+  if (user != null) {
+    String name = user.username;
+    int age = user.age;
+    double weight = user.weight;
+    double height = user.height;
+
+    String introduction = "My name is $name, age is $age, weight is $weight kg, height is $height cm, and I prefer $preferences food. My goal is to $goals.";
+    print(introduction);
+  } else {
+    print('No user is currently logged in.');
+  }
+}
+
+void main() {
+  updateIntroduction();
+}
+
 String name = "Mappa";
 int age = 65;
 double weight = 120.0;
