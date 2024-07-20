@@ -31,7 +31,7 @@ void main() async {
       ));
 
   runApp(MaterialApp(
-    initialRoute: '/Home2', // Corrected initial route
+    initialRoute: '/Welcome', // Corrected initial route
     routes: {
       '/Home': (context) => managePage('/Home'),
       '/Login': (context) => Login(),
