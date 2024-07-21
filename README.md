@@ -16,10 +16,9 @@ NutriCare is designed to help users maintain a healthy lifestyle by providing cu
 
 ## How to Use 🤔
 
-1. **Download and Install 📥**: Get the NutriCare app from your preferred app store.
-2. **Create a Profile 📝**: Enter basic information about yourself such as age, weight, dietary preferences, and health goals.
-3. **Interact with NutriBot 💬**: Ask questions and get personalized guidance on diet and mental health.
-4. **Track Your Progress 📈**: Use the app’s features to monitor your dietary intake and mental well-being.
+1. **Create a Profile 📝**: Enter basic information about yourself such as age, weight, dietary preferences, and health goals.
+2. **Interact with NutriBot 💬**: Ask questions and get personalized guidance on diet and mental health.
+3. **Track Your Progress 📈**: Use the app’s features to monitor your dietary intake and mental well-being.
 
 ## Contributors 👥
 
