@@ -29,9 +29,9 @@ NutriCare is designed to help users maintain a healthy lifestyle by providing cu
 - **Beharee Smriti Gavina** 🧑‍💼
   - **Role**: Flutter Developer
 - **Li Shing Hiung Li Shi Lin Meryl** 🧑‍🎨
-  - **Role**: Designer
-- **Joel Mappa** 🧑‍💻
   - **Role**: Flutter Developer
+- **Joel Mappa** 🧑‍💻
+  - **Role**: Flutter and Firebase Developer
 
 ## Getting Started 🚀
 
