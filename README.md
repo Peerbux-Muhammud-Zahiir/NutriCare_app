@@ -1,24 +1,82 @@
 # NutriCare 🍎🥗
 
+<div align="center">
+<img src="./assets/1.jpg" width=50%>
+<br>
+  
 Welcome to NutriCare, your ultimate AI-powered assistant for personalized dietary and mental health guidance! 🌟🤖
 
 ## Description 📄
 
 NutriCare is designed to help users maintain a healthy lifestyle by providing culturally relevant and practical advice. Our AI assistant, NutriBot, is knowledgeable about various dietary needs and provides mental health support, daily health tips, and AI-powered diet plans. Whether you need individual advice or support for your overall well-being, NutriBot is always available to assist you with quick, accurate, and empathetic responses.
 
+<div align="center">
+<img src="./assets/2.jpg" width=50%>
+<br>
+</div>
+
+
+
 ### Key Features ✨
 
 - **Personalized Meal Plans 🍽️**: Tailored dietary guidance for diabetics, pregnant women, children, and the elderly.
+
+ <div align="center">
+<img src="./assets/5.jpg" width=50%>
+<br>
+</div>
+
 - **Mental Health Support 🧠**: Resources and tips to help you manage stress and maintain mental well-being.
 - **Daily Health Tips 📅**: Regular advice on nutrition, exercise, and general wellness.
+
+  <div align="center">
+<img src="./assets/9.jpg" width=50%>
+<br>
+         
+</div>
+
 - **Nutritional Tracking 📊**: Monitor your dietary intake and get recommendations.
+<div align="center">
+<img src="./assets/4.jpg" width=50%>
+<br>
+      </div>
+      
 - **Cultural Relevance 🌍**: Advice and meal plans that incorporate local Mauritian dietary habits and preferences.
+
+
+
+
+    
+    
+      
+
+        
+
+
+
+
+<div align="center">
+<img src="./assets/8.jpg" width=50%>
+<br>          
+</div>
+
 
 ## How to Use 🤔
 
 1. **Create a Profile 📝**: Enter basic information about yourself such as age, weight, dietary preferences, and health goals.
-2. **Interact with NutriBot 💬**: Ask questions and get personalized guidance on diet and mental health.
-3. **Track Your Progress 📈**: Use the app’s features to monitor your dietary intake and mental well-being.
+  <div align="center">
+<img src="./assets/7.jpg" width=50%>
+<br>          
+</div>
+
+3. **Interact with NutriBot 💬**: Ask questions and get personalized guidance on diet and mental health.
+
+<div align="center">
+<img src="./assets/6.jpg" width=50%>
+<br>          
+</div>
+
+5. **Track Your Progress 📈**: Use the app’s features to monitor your dietary intake and mental well-being.
 
 ## Contributors 👥
 
