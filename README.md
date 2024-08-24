@@ -42,10 +42,10 @@ Follow these steps to set up the project locally:
    ```bash
    git clone https://github.com/username/NutriCare_app.git
    ```
-2. **To use the AI chatbot,create a .env file in the assets directory and assign your Gemini API key to the API_KEY variable**:
+2. **To use the AI chatbot,create a .env file in the assets directory as well as in the primary directory and assign your Gemini API key to the API_KEY variable**:
 
 ~~~
-API_KEY="<API key here>"
+   API_KEY="<API key here>"
 ~~~
 
 For more details on the project proposal, you can access the full document [here](https://drive.google.com/file/d/1C9fhYr2yK6pDJJNT-PbpZzZc80VQoM6u/view?usp=sharing).
